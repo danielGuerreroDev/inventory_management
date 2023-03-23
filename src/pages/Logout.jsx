@@ -1,10 +1,15 @@
 import BaseContainer from '../components/BaseContainer';
-import Authenticate from '../components/Authenticate';
 
-function Test({ hideSideBar, isOpen, showSideBar, sideBarWidth }) {
+function Bye() {
+    return (
+        <h1>Bye Bye</h1>
+    );
+}
+
+function Logout({ hideSideBar, isOpen, showSideBar, sideBarWidth }) {
     return(
         <BaseContainer
-            component={<Authenticate />}
+            component={<Bye />}
             hideSideBar={hideSideBar}
             isOpen={isOpen}
             showSideBar={showSideBar}
@@ -13,4 +18,4 @@ function Test({ hideSideBar, isOpen, showSideBar, sideBarWidth }) {
     );
 }
 
-export default Test;
+export default Logout;

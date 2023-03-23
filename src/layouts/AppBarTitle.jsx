@@ -2,13 +2,14 @@ import {
   AppBar,
   Toolbar,
   Typography,
-} from "@mui/material";
+} from '@mui/material';
 
 function AppBarTitle({ hideSideBar, isOpen, showSideBar, sideBarWidth }) {
+
   return (
     <AppBar
       sx={
-        { width: `calc(100% - ${sideBarWidth}px)` }
+        { width: `calc(100% - ${sideBarWidth}px) !important` }
       }
       className={isOpen ? showSideBar : hideSideBar}
     >

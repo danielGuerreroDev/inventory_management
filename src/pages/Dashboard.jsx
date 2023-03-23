@@ -1,16 +1,17 @@
-import BaseContainer from "../components/BaseContainer";
-import ProductsList from "../layouts/ProductsLists";
+import BaseContainer from '../components/BaseContainer';
 
-function Dashboard({ hideSideBar, isOpen, showSideBar, sideBarWidth }) {
-    return(
-        <BaseContainer
-            component={<ProductsList />}
-            hideSideBar={hideSideBar}
-            isOpen={isOpen}
-            showSideBar={showSideBar}
-            sideBarWidth={sideBarWidth}
-        />
-    );
+function Hi () {
+	return (<h1>Hi !</h1>);
+}
+
+function Dashboard() {
+	return (
+		<>
+			<BaseContainer
+				component={<Hi />}
+			/>
+		</>
+	);
 }
 
 export default Dashboard;

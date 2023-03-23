@@ -1,12 +1,8 @@
 import {
-  useState,
-} from "react";
-import {
-  Route,
-  Routes,
   Link
-} from "react-router-dom";
+} from 'react-router-dom';
 import {
+  Box,
   Divider,
   Drawer,
   IconButton,
@@ -16,96 +12,60 @@ import {
   ListItemIcon,
   ListItemText,
   Paper,
-} from "@mui/material";
+} from '@mui/material';
 import {
   ChevronLeft,
   Inbox,
   MenuOutlined,
-} from "@mui/icons-material";
-import { makeStyles } from "@mui/styles";
-import AppBarTitle from "./AppBarTitle";
-import Dashboard from "../pages/Dashboard";
-import Test from "../pages/Test";
+} from '@mui/icons-material';
+import { makeStyles } from '@mui/styles';
+import AppBarTitle from './AppBarTitle';
+import LogoutButton from '../components/LogoutButton';
 
 const styles = makeStyles({
   root: {
     alignItems: 'center',
     display: 'flex',
-    justifyContent: 'flex-end',
     padding: '4px',
-  },
-  showSideBar: {
-    transition: 'all 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms !important',
-    width: '100%',
-  },
-  hideSideBar: {
-    transition: 'all 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms !important',
-    width: '86px',
-    overflowX: 'hidden',
-    '& .makeStyles-root-1': {
-      justifyContent: 'center',
-    },
   },
 });
 
-function SideBarMenu() {
-  const [isOpen, setIsOpen] = useState(true);
+function SideBarMenu({
+  hideSideBar,
+  isOpen,
+  showSideBar,
+  sideBarToggleClick, 
+  sideBarWidth,
+}) {
   const classes = styles();
-  const sideBarWidth = isOpen ? 200 : 86;
-
-  const sideBarToggleClick = () => {
-    setIsOpen(!isOpen);
-  }
-
-  const routes = [
-    {
-      path: "/",
-      exact: true,
-      page:
-        <Dashboard
-          hideSideBar={classes.hideSideBar}
-          isOpen={isOpen}
-          showSideBar={classes.showSideBar}
-          sideBarWidth={sideBarWidth}
-        />,
-    },
-    {
-      path: "/pages/Test",
-      exact: false,
-      page:
-        <Test
-          hideSideBar={classes.hideSideBar}
-          isOpen={isOpen}
-          showSideBar={classes.showSideBar}
-          sideBarWidth={sideBarWidth}
-        />,
-    },
-  ];
 
   return (
     <>
       <Drawer variant="permanent">
         <AppBarTitle
-          hideSideBar={classes.hideSideBar}
+          hideSideBar={hideSideBar}
           isOpen={isOpen}
-          showSideBar={classes.showSideBar}
+          showSideBar={showSideBar}
           sideBarWidth={sideBarWidth}
         />
         <Paper
-          className={isOpen ? classes.showSideBar : classes.hideSideBar}
+          className={isOpen ? showSideBar : hideSideBar}
           elevation={0}
           id="divSideBarMenu"
         >
-          <div className={classes.root}>
+          <Box
+            className={classes.root}
+            sx={isOpen ? { justifyContent: "flex-end" } : { justifyContent: "center" }}
+          >
             <IconButton onClick={sideBarToggleClick} type="button">
               {isOpen ? <ChevronLeft /> : <MenuOutlined />}
             </IconButton>
-          </div>
+          </Box>
           <Divider />
           <List>
             <ListItem
               component={Link}
-              to='/'
+              to="/pages/Dashboard"
             >
               <ListItemButton>
                 <ListItemIcon>
@@ -116,29 +76,19 @@ function SideBarMenu() {
             </ListItem>
             <ListItem
               component={Link}
-              to='/pages/Test'
+              to="/pages/Products"
             >
               <ListItemButton>
                 <ListItemIcon>
                   <Inbox />
                 </ListItemIcon>
-                <ListItemText primary="Test" />
+                <ListItemText primary="Products" />
               </ListItemButton>
             </ListItem>
+            <LogoutButton />
           </List>
         </Paper>
       </Drawer>
-
-      <Routes>
-        {routes.map((route, index) => (
-          <Route
-            element={route.page}
-            exact={route.exact}
-            key={index}
-            path={route.path}
-          />
-        ))}
-      </Routes>
     </>
   );
 }
