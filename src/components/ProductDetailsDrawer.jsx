@@ -18,6 +18,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import Input from '@mui/material/Input';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
+import Axios from "axios";
 
 const styles = makeStyles({
   drawer: {
@@ -94,25 +95,24 @@ const styles = makeStyles({
   },
 });
 
-function ProductDetailsDrawer({ id, openDrawer, closeProductDetails }) {
+function ProductDetailsDrawer({ id, openDrawer, closeProductDetails, getDataProductsList }) {
   const [data, setData] = useState({});
   const [openActions, setOpenActions] = useState(false);
   const [edit, setEdit ] = useState(false);
   const [categories, setCategories] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-  const getData = useCallback(
-    async () => {
-      const response = await fetch(`https://dummyjson.com/products/${id}`);
-      const jsonData = await response.json();
-      setData(jsonData);
-    }, [id]);
+  const getData = useCallback(async () => {
+    Axios.get(`http://localhost:8080/getProduct/${id}`).then(res => {
+      setData(res.data);
+    })
+  }, [id]);
 
   const getCategories = async () => {
-    const responseCategories = await fetch('https://dummyjson.com/products/categories');
-    const jsonCategories = await responseCategories.json();
-    setCategories(jsonCategories);
-  }
+    Axios.get('http://localhost:8080/getCategories').then(res => {
+      setCategories(res.data);
+    })
+  };
 
   useEffect(() => {
     getData();
@@ -134,10 +134,17 @@ function ProductDetailsDrawer({ id, openDrawer, closeProductDetails }) {
     setEdit(true);
   }
 
-  const onSave = () => {
-    setOpenActions(!openActions);
-    setEdit(false);
-    console.log('save');
+  const onSave = async () => {
+    const params = data;
+    Axios.put(`http://localhost:8080/product/${id}/update`, params).then(res => {
+        getData();
+        setOpenActions(!openActions);
+        setEdit(false);
+        getDataProductsList();
+        res.status(200).send({
+          status: 'Success',
+        })
+    });
   }
 
   const onCancel = () => {
@@ -156,7 +163,9 @@ function ProductDetailsDrawer({ id, openDrawer, closeProductDetails }) {
 
   const handleCloseProductDetails = () => {
     closeProductDetails();
+    setSelectedCategory(null);
     setEdit(false);
+    setData({});
   }
 
   function CustomMenu (props) {
@@ -220,7 +229,7 @@ function ProductDetailsDrawer({ id, openDrawer, closeProductDetails }) {
   }
 
   const categoriesSelect = categories?.map((item) => {
-    return <MenuItem value={item}>{item}</MenuItem>;
+    return <MenuItem value={item.name}>{item.name}</MenuItem>;
   });
 
   function EditableDetails () {
@@ -297,6 +306,8 @@ function ProductDetailsDrawer({ id, openDrawer, closeProductDetails }) {
       </StrictMode>
     );
   }
+
+  console.log('_id', data._id);
 
   return (
     <Drawer

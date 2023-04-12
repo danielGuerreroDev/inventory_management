@@ -6,6 +6,7 @@ import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from "@mui/material/TablePagination";
 import { makeStyles } from "@mui/styles";
+import Axios from "axios";
 
 const styles = makeStyles({
   hover: {
@@ -26,7 +27,7 @@ const columns = [
 ];
 
 function Products() {
-  const [data, setData] = useState({});
+  const [data, setData] = useState(null);
   const [openDrawer, setOpenDrawer] = useState(false);
   const [productId, setProductId] = useState(null);
   const [page, setPage] = useState(0);
@@ -34,10 +35,10 @@ function Products() {
 
   const classes = styles();
 
-  const getData = async () => {
-    const response = await fetch('https://dummyjson.com/products');
-    const jsonData = await response.json();
-    setData(jsonData);
+  const getData = () => {
+    Axios.get('http://localhost:8080/getProducts').then(res => {
+      setData(res.data);
+    })
   }
 
   useEffect(() =>{
@@ -59,7 +60,7 @@ function Products() {
     currency: 'USD',
   });
 
-  const rows = data.products?.slice(page * rowsPerPage,
+  const rows = data?.slice(page * rowsPerPage,
     page * rowsPerPage + rowsPerPage).map((item) => (
     <TableRow
       className={classes.hover}
@@ -75,7 +76,7 @@ function Products() {
     </TableRow>
   ));
 
-  const count = data.products?.length;
+  const count = data?.length;
 
   const onPageChange = (event, newPage) => {
     setPage(newPage);
@@ -111,6 +112,7 @@ function Products() {
         id={productId}
         openDrawer={openDrawer}
         closeProductDetails={closeProductDetails}
+        getDataProductsList={getData}
       />
     </>
   );
