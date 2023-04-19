@@ -97,6 +97,7 @@ const styles = makeStyles({
 
 function ProductDetailsDrawer({ id, openDrawer, closeProductDetails, getDataProductsList }) {
   const [data, setData] = useState({});
+  const [clonedData, setClonedData] = useState({});
   const [openActions, setOpenActions] = useState(false);
   const [edit, setEdit ] = useState(false);
   const [categories, setCategories] = useState(null);
@@ -105,7 +106,7 @@ function ProductDetailsDrawer({ id, openDrawer, closeProductDetails, getDataProd
   const getData = useCallback(async () => {
     Axios.get(`http://localhost:8080/getProduct/${id}`).then(res => {
       setData(res.data);
-    })
+    });
   }, [id]);
 
   const getCategories = async () => {
@@ -130,24 +131,24 @@ function ProductDetailsDrawer({ id, openDrawer, closeProductDetails, getDataProd
   }
 
   const onEdit = () => {
+    setClonedData(data);
     setOpenActions(!openActions);
     setEdit(true);
   }
 
   const onSave = async () => {
+    setData(clonedData);
     const params = data;
     Axios.put(`http://localhost:8080/product/${id}/update`, params).then(res => {
         getData();
         setOpenActions(!openActions);
         setEdit(false);
         getDataProductsList();
-        res.status(200).send({
-          status: 'Success',
-        })
     });
   }
 
   const onCancel = () => {
+    getData();
     setOpenActions(!openActions);
     setEdit(false);
   }
@@ -157,8 +158,15 @@ function ProductDetailsDrawer({ id, openDrawer, closeProductDetails, getDataProd
     console.log('delete');
   }
 
-  const handleChange = (event) => {
-    setSelectedCategory(event.target.value);
+  const handleChangeSelectCategory = (event) => {
+    const categoryField = "category";
+    const categoryValue = event.target.value;
+    setSelectedCategory(categoryValue);
+    for (const key in clonedData) {
+      if(key === categoryField) {
+        clonedData[key] = categoryValue;
+      }
+    }
   }
 
   const handleCloseProductDetails = () => {
@@ -182,6 +190,20 @@ function ProductDetailsDrawer({ id, openDrawer, closeProductDetails, getDataProd
         {...props}
       />
     );
+  }
+
+  const categoriesSelect = categories?.map((item) => {
+    return <MenuItem value={item.name}>{item.name}</MenuItem>;
+  });
+
+  const handleChangeWhenEditing = (event) => {
+    const field = event.target.id;
+    const fieldValue = event.target.value;
+    for (const key in clonedData) {
+      if(key === field) {
+        clonedData[key] = fieldValue;
+      }
+    }
   }
 
   function Details () {
@@ -228,33 +250,37 @@ function ProductDetailsDrawer({ id, openDrawer, closeProductDetails, getDataProd
     );
   }
 
-  const categoriesSelect = categories?.map((item) => {
-    return <MenuItem value={item.name}>{item.name}</MenuItem>;
-  });
-
   function EditableDetails () {
     return(
-      <StrictMode key={data.id}>
-        <div key={data.id} className={classes.mainDetailContainer}>
+      <StrictMode key={clonedData.id}>
+        <div key={clonedData.id} className={classes.mainDetailContainer}>
           <Avatar
-            alt={data.title}
+            alt={clonedData.title}
             className={classes.avatar}
-            src={data.thumbnail}
-            variant="rounded" />
+            src={clonedData.thumbnail}
+            variant="rounded"
+          />
           <div className={classes.mainDetailInfo}>
             <Typography variant="overline">
-              ID: {data.id}
+              ID: {clonedData.id}
             </Typography>
             <Typography variant="subtitle1">
               Brand:
-              <Input defaultValue={data.brand} sx={{ marginX: '10px' }} />
+              <Input
+                id="brand"
+                defaultValue={clonedData.brand}
+                onChange={handleChangeWhenEditing}
+                sx={{ marginX: '10px' }}
+              />
             </Typography>
             <Typography variant="subtitle1">
               Stock:
               <Input
+                id="stock"
                 className={classes.inputNumber}
-                defaultValue={data.stock}
+                defaultValue={clonedData.stock}
                 inputProps={{ type: 'number', pattern: '[0-9]*' }}
+                onChange={handleChangeWhenEditing}
                 sx={{ marginX: '10px' }}
               />
             </Typography>
@@ -262,43 +288,56 @@ function ProductDetailsDrawer({ id, openDrawer, closeProductDetails, getDataProd
         </div>
         <div className={classes.description}>
           <Typography variant="body2">
-            <Input defaultValue={data.description} multiline fullWidth />
+            <Input
+              id="description"
+              defaultValue={clonedData.description}
+              multiline
+              fullWidth
+              onChange={handleChangeWhenEditing}
+            />
           </Typography>
         </div>
         <div className={classes.extraDetailContainer}>
-          <InputLabel id="categoriesSelect">Category</InputLabel>
+          <InputLabel id="category">Category</InputLabel>
           <Select
-            labelId="categoriesSelect"
+            id="category"
+            labelId="category"
             autoWidth
-            value={selectedCategory ? selectedCategory : data.category}
-            onChange={handleChange}
+            value={selectedCategory ? selectedCategory : clonedData.category}
+            onChange={handleChangeSelectCategory}
           >
             {categoriesSelect}
           </Select>
           <Typography variant="body2">
             Discount:
             <Input
+              id="discountPercentage"
               className={classes.inputNumber}
-              defaultValue={data.discountPercentage}
+              defaultValue={clonedData.discountPercentage}
               inputProps={{ type: 'number', pattern: '[0-9]*' }}
+              onChange={handleChangeWhenEditing}
               sx={{ marginX: '10px' }}
             />%
           </Typography>
           <Typography variant="body2">
             Price: $
             <Input
+              id="price"
               className={classes.inputNumber}
-              defaultValue={data.price}
+              defaultValue={clonedData.price}
               inputProps={{ type: 'number', pattern: '[0-9]*' }}
+              onChange={handleChangeWhenEditing}
               sx={{ marginX: '10px' }}
             />
           </Typography>
           <Typography variant="body2">
             Rating:
             <Input
+              id="rating"
               className={classes.inputNumber}
-              defaultValue={data.rating}
+              defaultValue={clonedData.rating}
               inputProps={{ type: 'number', pattern: '[0-9]*' }}
+              onChange={handleChangeWhenEditing}
               sx={{ marginX: '10px' }}
             />
           </Typography>
@@ -306,8 +345,6 @@ function ProductDetailsDrawer({ id, openDrawer, closeProductDetails, getDataProd
       </StrictMode>
     );
   }
-
-  console.log('_id', data._id);
 
   return (
     <Drawer
