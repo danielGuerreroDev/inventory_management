@@ -1,9 +1,9 @@
-import SideBarMenu from "../layouts/SideBarMenu";
+import Welcome from '../layouts/Welcome';
 
 function Home() {
   return (
     <>
-      <SideBarMenu />
+      <Welcome />
     </>
   );
 }

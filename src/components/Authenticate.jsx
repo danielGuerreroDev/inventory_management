@@ -6,11 +6,12 @@ import {
   FormControlLabel,
   TextField,
   Typography
-} from "@mui/material";
+} from '@mui/material';
 import { Box } from '@mui/system';
 import Container from '@mui/material/Container';
-import Grid from "@mui/material/Grid";
-import { makeStyles } from "@mui/styles";
+import Grid from '@mui/material/Grid';
+import { makeStyles } from '@mui/styles';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const styles = makeStyles({
   root: {
@@ -19,11 +20,23 @@ const styles = makeStyles({
     flexDirection: 'column',
     gap: '10px',
     justifyContent: 'center',
-    // '& .MuiBox-root': {
-    //   width: '100%'
-    // }
   }
 });
+
+const LoginButton = () => {
+  const { loginWithRedirect } = useAuth0();
+
+  return(
+    <Button
+      fullWidth
+      onClick={() => loginWithRedirect()}
+      type="submit"
+      variant="contained"
+    >
+      Sign In
+    </Button>
+  );
+}
 
 function Authenticate() {
   const classes = styles();
@@ -61,19 +74,13 @@ function Authenticate() {
             name="password"
             required
           />
-          <Box sx={{ width: '100%' }}>
+          <Box sx={{ width: "100%" }}>
             <FormControlLabel
               control={<Checkbox color="primary" value="remember" />}
               label="Remember me"
             />
           </Box>
-          <Button
-            fullWidth
-            type="submit"
-            variant="contained"
-          >
-            Sign In
-          </Button>
+          <LoginButton></LoginButton>
         </Container>
       </Grid>
     </Grid>

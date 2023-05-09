@@ -1,5 +1,5 @@
-import BaseContainer from "../components/BaseContainer";
-import Authenticate from "../components/Authenticate";
+import BaseContainer from '../components/BaseContainer';
+import Authenticate from '../components/Authenticate';
 
 function Test({ hideSideBar, isOpen, showSideBar, sideBarWidth }) {
     return(
