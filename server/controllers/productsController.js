@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Products = mongoose.model('products');
-const ObjectId = require('mongodb').ObjectId;
 
 exports.baseRoute = async (req, res) => {
     res.send('Server Running');
@@ -29,12 +28,9 @@ exports.updateProduct = async (req, res) => {
     try {
         let updatedProductId = parseInt(req.params.id, 10);
         const selectedProduct = await Products.findOne({ id: updatedProductId });
-        console.log('productId 333', selectedProduct._id);
         const updatedProduct  = await Products.findByIdAndUpdate(
             { _id: selectedProduct._id },
-            { title: 'Fog Scent Xpressio Perfume Hola' },
-            console.log('BODY', req.body.price)
-            // { $set: req.body }
+            { $set: req.body }
         );
         res.send(updatedProduct);
     } catch (err) {
