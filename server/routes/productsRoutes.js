@@ -10,5 +10,7 @@ router.get('/', productsController.baseRoute);
 router.get('/getProducts', productsController.getProducts);
 router.get('/getProduct/:id', productsController.getSingleProduct);
 router.put('/product/:id/update', jsonParser, productsController.updateProduct);
+router.delete('/product/delete/:id', productsController.deleteProduct);
+
 
 module.exports = router;

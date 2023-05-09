@@ -1,7 +1,10 @@
 import { StrictMode, useCallback, useEffect, useState } from "react";
 import Drawer from "@mui/material/Drawer";
+import Dialog from "@mui/material/Dialog"
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogActions from "@mui/material/DialogActions";
 import Button from '@mui/material/Button';
 import IconButton from "@mui/material/IconButton";
 import Close from "@mui/icons-material/Close";
@@ -18,6 +21,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import Input from '@mui/material/Input';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
+import Snackbar from "@mui/material/Snackbar";
 import Axios from "axios";
 
 const styles = makeStyles({
@@ -98,7 +102,10 @@ const styles = makeStyles({
 function ProductDetailsDrawer({ id, openDrawer, closeProductDetails, getDataProductsList }) {
   const [data, setData] = useState({});
   const [clonedData, setClonedData] = useState({});
+  const [actionsMessage, setActionsMessage] = useState(null);
   const [openActions, setOpenActions] = useState(false);
+  const [openDialogDelete, setOpenDialogDelete] = useState(false);
+  const [openSnackbarConfirm, setOpenSnackbarConfirm] = useState(false);
   const [edit, setEdit ] = useState(false);
   const [categories, setCategories] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -140,10 +147,12 @@ function ProductDetailsDrawer({ id, openDrawer, closeProductDetails, getDataProd
     setData(clonedData);
     const params = data;
     Axios.put(`http://localhost:8080/product/${id}/update`, params).then(res => {
-        getData();
-        setOpenActions(!openActions);
-        setEdit(false);
-        getDataProductsList();
+      setActionsMessage("Your changes have been saved.");
+      handleSnackbarConfirm();
+      getData();
+      setOpenActions(!openActions);
+      setEdit(false);
+      getDataProductsList();
     });
   }
 
@@ -155,7 +164,29 @@ function ProductDetailsDrawer({ id, openDrawer, closeProductDetails, getDataProd
 
   const onDelete = () => {
     setOpenActions(!openActions);
-    console.log('delete');
+    setOpenDialogDelete(!openDialogDelete)
+  }
+
+  const handleCloseDialogDelete = () => {
+    setOpenDialogDelete(!openDialogDelete);
+  }
+
+  const deleteProduct = async () => {
+    Axios.delete(`http://localhost:8080/product/delete/${id}`).then(res => {
+      setActionsMessage("Product deleted.");
+      handleCloseProductDetails();
+      handleCloseDialogDelete();
+      handleSnackbarConfirm();
+      getDataProductsList();
+    });
+  }
+
+  const handleSnackbarConfirm = () => {
+    setOpenSnackbarConfirm(!openSnackbarConfirm);
+  }
+
+  const handleCloseSnackbarConfirm = () => {
+    setOpenSnackbarConfirm(!openSnackbarConfirm);
   }
 
   const handleChangeSelectCategory = (event) => {
@@ -347,63 +378,99 @@ function ProductDetailsDrawer({ id, openDrawer, closeProductDetails, getDataProd
   }
 
   return (
-    <Drawer
-      anchor="right"
-      className={classes.drawer}
-      onClose={handleCloseProductDetails}
-      open={openDrawer}
-    >
-      <DialogTitle>
-        {data.title}
-        <IconButton
-          onClick={handleCloseProductDetails}
-        >
-          <Close />
-        </IconButton>
-      </DialogTitle>
-      <div className={classes.actions}>
-        <div className={classes.actionsContainer}>
+    <>
+      <Drawer
+        anchor="right"
+        className={classes.drawer}
+        onClose={handleCloseProductDetails}
+        open={openDrawer}
+      >
+        <DialogTitle>
+          {data.title}
+          <IconButton
+            onClick={handleCloseProductDetails}
+          >
+            <Close />
+          </IconButton>
+        </DialogTitle>
+        <div className={classes.actions}>
+          <div className={classes.actionsContainer}>
+            <Button
+              aria-controls={openActions ? 'CustomMenu' : null}
+              aria-haspopup="true"
+              aria-expanded={openActions ? 'true' : null}
+              disableElevation
+              endIcon={<KeyboardArrowDownIcon />}
+              onClick={actionsClick}
+              size="small"
+              variant="contained"
+            >
+              Actions
+            </Button>
+            <CustomMenu
+              id="CustomMenu"
+              onClick={handleClose}
+              open={openActions}
+              className={classes.actionsItems}
+            >
+              <div>
+                <MenuItem
+                  disableRipple
+                  onClick={edit ? onSave : onEdit}
+                >
+                  {edit ? <SaveIcon fontSize="small" /> : <EditIcon fontSize="small" />}
+                  {edit ? 'Save' : 'Edit'}
+                </MenuItem>
+                <MenuItem
+                  disableRipple
+                  onClick={edit ? onCancel : onDelete}
+                >
+                  {edit ? <CancelIcon fontSize="small" /> : <Delete fontSize="small" />}
+                  {edit ? 'Cancel' : 'Delete'}
+                </MenuItem>
+              </div>
+            </CustomMenu>
+          </div>
+        </div>
+        <DialogContent dividers>
+          {edit ? <EditableDetails /> : <Details />}
+        </DialogContent>
+      </Drawer>
+      <Dialog
+        open={openDialogDelete}
+        onClose={handleCloseDialogDelete}
+      >
+        <DialogTitle>
+          Delete
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to delete this product?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
           <Button
-            aria-controls={openActions ? 'CustomMenu' : null}
-            aria-haspopup="true"
-            aria-expanded={openActions ? 'true' : null}
-            disableElevation
-            endIcon={<KeyboardArrowDownIcon />}
-            onClick={actionsClick}
-            size="small"
+            onClick={handleCloseDialogDelete}
             variant="contained"
           >
-            Actions
+            No
           </Button>
-          <CustomMenu
-            id="CustomMenu"
-            onClick={handleClose}
-            open={openActions}
-            className={classes.actionsItems}
+          <Button
+            onClick={deleteProduct}
+            variant="contained"
+            color="error"
           >
-            <div>
-              <MenuItem
-                disableRipple
-                onClick={edit ? onSave : onEdit}
-              >
-                {edit ? <SaveIcon fontSize="small" /> : <EditIcon fontSize="small" />}
-                {edit ? 'Save' : 'Edit'}
-              </MenuItem>
-              <MenuItem
-                disableRipple
-                onClick={edit ? onCancel : onDelete}
-              >
-                {edit ? <CancelIcon fontSize="small" /> : <Delete fontSize="small" />}
-                {edit ? 'Cancel' : 'Delete'}
-              </MenuItem>
-            </div>
-          </CustomMenu>
-        </div>
-      </div>
-      <DialogContent dividers>
-        {edit ? <EditableDetails /> : <Details />}
-      </DialogContent>
-    </Drawer>
+              Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Snackbar
+        autoHideDuration={3000}
+        open={openSnackbarConfirm}
+        onClose={handleCloseSnackbarConfirm}
+        message={actionsMessage}
+      />
+    </>
   );
 }
 
