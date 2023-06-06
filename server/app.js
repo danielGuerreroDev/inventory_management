@@ -8,4 +8,4 @@ const categoriesRoutes = require('./routes/categoriesRoutes');
 app.use(routes, cors());
 app.use(categoriesRoutes);
 
-module.exports = app;
+module.exports = app; //test
