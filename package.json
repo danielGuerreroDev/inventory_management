@@ -15,6 +15,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.3.4",
     "browserify": "^17.0.0",
+    "concurrently": "^8.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "mongoose": "^7.0.2",
@@ -29,7 +30,7 @@
     "test": "react-scripts test",
     "server": "npm start --prefix server",
     "client": "react-scripts start",
-    "start": "start"
+    "start": "concurrently \"npm run server\" \"npm run client\""
   },
   "eslintConfig": {
     "extends": [
