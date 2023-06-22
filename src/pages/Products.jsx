@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import BaseContainer from "../components/BaseContainer";
 import ProductDetailsDrawer from "../components/ProductDetailsDrawer";
@@ -36,7 +37,7 @@ function Products() {
   const classes = styles();
 
   const getData = () => {
-    Axios.get('http://localhost:8080/getProducts').then(res => {
+    Axios.get('https://inventory-management-q6zw.onrender.com/getProducts').then(res => {
       setData(res.data);
     })
   }
