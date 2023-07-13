@@ -6,7 +6,9 @@ const routes = require('./routes/productsRoutes');
 const categoriesRoutes = require('./routes/categoriesRoutes');
 
 app.use(routes, cors({
-    origin: '*'
+	headers: {
+		"access-control-allow-origin": "*",
+	},
 }));
 app.use(categoriesRoutes);
 
