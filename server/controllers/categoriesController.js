@@ -5,7 +5,6 @@ exports.getCategories = async (req, res) => {
     try {
         const categories = await Categories.find({});
         res.send(categories);
-        res.status(200).send("Hi !")
       } catch (err) {
         console.log(err);
       }
