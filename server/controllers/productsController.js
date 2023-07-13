@@ -9,9 +9,6 @@ exports.getProducts = async (req, res) => {
 	try {
 		const products = await Products.find({});
 		res.send(products);
-		req.headers(
-			"access-control-allow-origin: *",
-		);
 	} catch (err) {
 		console.log(err);
 	}
