@@ -9,8 +9,8 @@ exports.getProducts = async (req, res) => {
 	try {
 		const products = await Products.find({});
 		res.send(products);
+		req.body("Holaaa");
 		return {
-			body: "Hello, world!",
 			headers: {
 				"access-control-allow-origin": "*",
 			},
