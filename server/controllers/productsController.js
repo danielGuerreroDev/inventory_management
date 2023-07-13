@@ -9,12 +9,9 @@ exports.getProducts = async (req, res) => {
 	try {
 		const products = await Products.find({});
 		res.send(products);
-		req.body("Holaaa");
-		return {
-			headers: {
-				"access-control-allow-origin": "*",
-			},
-		}
+		req.headers(
+			"access-control-allow-origin: *",
+		);
 	} catch (err) {
 		console.log(err);
 	}
