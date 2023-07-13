@@ -10,8 +10,8 @@ const productsController = require('../controllers/productsController');
 router.get('/', productsController.baseRoute);
 router.get('/getProducts',cors() , productsController.getProducts);
 router.get('/getProduct/:id',cors() , productsController.getSingleProduct);
-router.put('/product/:id/update', jsonParser, productsController.updateProduct);
-router.delete('/product/delete/:id', productsController.deleteProduct);
+router.put('/product/:id/update', jsonParser,cors() , productsController.updateProduct);
+router.delete('/product/delete/:id',cors() , productsController.deleteProduct);
 
 
 module.exports = router;
