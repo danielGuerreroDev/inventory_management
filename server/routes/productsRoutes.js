@@ -13,7 +13,7 @@ router.get('/getProduct/:id',cors() , productsController.getSingleProduct);
 router.put('/product/:id/update',cors({
     origin: ['https://prod--im-danielguerrero.netlify.app'],
     methods: ['POST', 'PUT', 'UPDATE', 'OPTIONS']
-}) , jsonParser, productsController.updateProduct);
+}) , productsController.updateProduct);
 router.delete('/product/delete/:id',cors() , productsController.deleteProduct);
 
 
