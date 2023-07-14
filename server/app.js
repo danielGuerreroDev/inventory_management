@@ -6,7 +6,7 @@ const routes = require('./routes/productsRoutes');
 const categoriesRoutes = require('./routes/categoriesRoutes');
 
 app.use(routes, cors({
-    origin
+    origin: 'https://prod--im-danielguerrero.netlify.app'
 }));
 app.use(categoriesRoutes);
 
