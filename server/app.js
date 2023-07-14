@@ -6,7 +6,7 @@ const routes = require('./routes/productsRoutes');
 const categoriesRoutes = require('./routes/categoriesRoutes');
 
 app.use(routes, cors({
-    methods: ['PUT']
+    methods: ['PUT', 'UPDATE']
 }));
 app.use(categoriesRoutes);
 
