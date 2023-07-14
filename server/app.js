@@ -5,7 +5,9 @@ const app = express();
 const routes = require('./routes/productsRoutes');
 const categoriesRoutes = require('./routes/categoriesRoutes');
 
-app.use(routes, cors());
+app.use(routes, cors({
+    origin
+}));
 app.use(categoriesRoutes);
 
 module.exports = app;
