@@ -21,7 +21,7 @@ router.get('/getProduct/:id', cors({
 router.put('/product/:id/update', cors({
     origin: 'https://prod--im-danielguerrero.netlify.app',
     optionsSuccessStatus: 200,
-    methods: ["POST", "PUT", "UPDATE", "OPTIONS"]
+    methods: ["POST", "put", "PUT", "UPDATE", "OPTIONS"]
 }), jsonParser, productsController.updateProduct);
 router.delete('/product/delete/:id', productsController.deleteProduct);
 
