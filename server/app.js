@@ -12,7 +12,7 @@ const categoriesRoutes = require('./routes/categoriesRoutes');
 // }));
 app.use(categoriesRoutes);
 
-app.use(function(req, res, next) {
+app.use(routes,function(req, res, next) {
     // res.header("Access-Control-Allow-Origin", "*");
     const allowedOrigins = ['https://prod--im-danielguerrero.netlify.app'];
     const origin = req.headers.origin;
