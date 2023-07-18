@@ -18,7 +18,7 @@ router.get('/getProduct/:id', cors({
     optionsSuccessStatus: 200,
     methods: ["GET"]
 }), productsController.getSingleProduct);
-router.put('/product/:id/update', cors({
+router.post('/product/:id/update', cors({
     origin: 'https://prod--im-danielguerrero.netlify.app',
     optionsSuccessStatus: 200,
     methods: ["POST", "put", "PUT", "UPDATE", "OPTIONS"]
