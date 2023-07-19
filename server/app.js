@@ -14,7 +14,7 @@ app.use(categoriesRoutes);
 
 app.use(routes,function(req, res, next) {
     // res.header("Access-Control-Allow-Origin", "*");
-    const allowedOrigins = ['https://prod--im-danielguerrero.netlify.app'];
+    const allowedOrigins = ['https://inventory-management-net.onrender.com'];
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
          res.setHeader('Access-Control-Allow-Origin', origin);
