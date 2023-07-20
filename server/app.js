@@ -14,22 +14,22 @@ const routes = require('./routes/productsRoutes');
 
 // Set middleware of CORS 
 app.use(routes, (req, res, next) => {
-  req.setHeader(
+  req.header(
     "Access-Control-Allow-Origin",
     ["https://inventory-management-gu28.onrender.com/","https://inventory-management-net.onrender.com"]
   );
-  req.setHeader(
+  req.header(
     "Access-Control-Allow-Methods",
     "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS,CONNECT,TRACE"
   );
-  req.setHeader(
+  req.header(
     "Access-Control-Allow-Headers",
     "Content-Type, Authorization, X-Content-Type-Options, Accept, X-Requested-With, Origin, Access-Control-Request-Method, Access-Control-Request-Headers"
   );
-  req.setHeader("Access-Control-Allow-Credentials", true);
-  req.setHeader("Access-Control-Allow-Private-Network", true);
+  req.header("Access-Control-Allow-Credentials", true);
+  req.header("Access-Control-Allow-Private-Network", true);
   //  Firefox caps this at 24 hours (86400 seconds). Chromium (starting in v76) caps at 2 hours (7200 seconds). The default value is 5 seconds.
-  req.setHeader("Access-Control-Max-Age", 7200);
+  req.header("Access-Control-Max-Age", 7200);
 
   next();
 });
