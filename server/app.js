@@ -5,11 +5,7 @@ const app = express();
 const routes = require('./routes/productsRoutes');
 // const categoriesRoutes = require('./routes/categoriesRoutes');
 
-app.use(routes, cors({
-    origin: 'https://inventory-management-net.onrender.com',
-    optionsSuccessStatus: 200,
-    methods: ["GET", "PUT", "POST", "UPDATE", "DELETE", "OPTIONS"]
-}));
+app.use(routes, cors());
 // app.use(categoriesRoutes);
 
 // Set middleware of CORS 
