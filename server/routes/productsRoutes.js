@@ -10,10 +10,10 @@ const categoriesController = require('../controllers/categoriesController');
 
 router.get('/getCategories', cors(), categoriesController.getCategories);
 
-router.get('/', productsController.baseRoute);
+router.get('/', cors(),productsController.baseRoute);
 router.get('/getProducts', cors(),productsController.getProducts);
 router.get('/getProduct/:id', cors(),productsController.getSingleProduct);
-router.put('/product/:id/update', jsonParser, productsController.updateProduct);
+router.put('/product/:id', jsonParser, productsController.updateProduct);
 router.delete('/product/delete/:id', cors(),productsController.deleteProduct);
 
 
