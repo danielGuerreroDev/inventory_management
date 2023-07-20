@@ -16,7 +16,7 @@ const app = express();
 app.use((req, res, next) => {
   res.setHeader(
     "Access-Control-Allow-Origin",
-    "https://inventory-management-net.onrender.com"
+    ["https://inventory-management-gu28.onrender.com/","https://inventory-management-net.onrender.com"]
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
