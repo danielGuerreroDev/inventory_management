@@ -2,7 +2,7 @@
 const express = require('express');
 const app = express();
 
-// const routes = require('./routes/productsRoutes');
+const routes = require('./routes/productsRoutes');
 // const categoriesRoutes = require('./routes/categoriesRoutes');
 
 // app.use(routes, cors({
@@ -13,7 +13,7 @@ const app = express();
 // app.use(categoriesRoutes);
 
 // Set middleware of CORS 
-app.use((req, res, next) => {
+app.use(routes, (req, res, next) => {
   res.setHeader(
     "Access-Control-Allow-Origin",
     ["https://inventory-management-gu28.onrender.com/","https://inventory-management-net.onrender.com"]
