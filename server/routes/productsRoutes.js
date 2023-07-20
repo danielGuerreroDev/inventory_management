@@ -6,6 +6,9 @@ const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
 const productsController = require('../controllers/productsController');
+const categoriesController = require('../controllers/categoriesController');
+
+router.get('/getCategories', categoriesController.getCategories);
 
 router.get('/', productsController.baseRoute);
 router.get('/getProducts', productsController.getProducts);
