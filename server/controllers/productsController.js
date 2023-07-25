@@ -26,6 +26,12 @@ exports.getSingleProduct = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
 	try {
+		if (req.method === 'OPTIONS') {
+			req.header(
+				"Access-Control-Allow-Origin",
+				["https://inventory-management-gu28.onrender.com/", "https://inventory-management-net.onrender.com"]
+			);
+		};
 		let updatedProductId = parseInt(req.params.id, 10);
 		const selectedProduct = await Products.findOne({ id: updatedProductId });
 		const updatedProduct = await Products.findByIdAndUpdate(
