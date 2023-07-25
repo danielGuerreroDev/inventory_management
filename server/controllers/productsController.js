@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Products = mongoose.model('products');
-const cors = require('cors');
 
 exports.baseRoute = async (req, res) => {
 	res.send('Server Running');
@@ -26,7 +25,7 @@ exports.getSingleProduct = async (req, res) => {
 };
 
 exports.updateProduct = async (req, res, next) => {
-		console.log('METHOD 333', req.method);
+	console.log('METHOD 333', req.method);
 		res.setHeader('Access-Control-Allow-Origin', 'https://inventory-management-net.onrender.com');
 		res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 		res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
@@ -45,16 +44,15 @@ exports.updateProduct = async (req, res, next) => {
 	}
 };
 
-exports.deleteProduct(cors(), function (req, res, next){
-	try {
-		let updatedProductId = parseInt(req.params.id, 10);
-		const selectedProduct = Products.findOne({ id: updatedProductId });
-		const deletedProduct = Products.deleteOne(
-			{ _id: selectedProduct._id },
-		);
-		res.send(deletedProduct);
-		res.json('This is CORS-enabled for all origins!');
-	} catch (err) {
-		console.log(err);
-	}
-})
+// exports.deleteProduct = async (req, res) => {
+// 	try {
+// 		let updatedProductId = parseInt(req.params.id, 10);
+// 		const selectedProduct = await Products.findOne({ id: updatedProductId });
+// 		const deletedProduct = await Products.deleteOne(
+// 			{ _id: selectedProduct._id },
+// 		);
+// 		res.send(deletedProduct);
+// 	} catch (err) {
+// 		console.log(err);
+// 	}
+// };

@@ -1,11 +1,28 @@
-// const cors = require('cors');
+const cors = require('cors');
 const express = require('express');
 const app = express();
+const mongoose = require('mongoose');
+const Products = mongoose.model('products');
 
 const routes = require('./routes/productsRoutes');
 // const categoriesRoutes = require('./routes/categoriesRoutes');
 
 app.use(routes);
+
+app.options('/product/delete/:id', cors());
+app.del('/products/:id', cors(), function (req, res, next) {
+    try {
+		let updatedProductId = parseInt(req.params.id, 10);
+		const selectedProduct = Products.findOne({ id: updatedProductId });
+		const deletedProduct = Products.deleteOne(
+			{ _id: selectedProduct._id },
+		);
+		res.send(deletedProduct);
+		res.json('This is CORS-enabled for all origins!');
+	} catch (err) {
+		console.log(err);
+	}
+  })
 // let requestCntr = 0;
 // app.use(routes,(req, res, next) => {
 //     let thisRequest = requestCntr++;
