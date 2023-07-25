@@ -15,7 +15,7 @@ app.options('/product/delete/:id', cors({
     preflightContinue: false,
     optionsSuccessStatus: 204
 }));
-app.delete('/products/:id', cors({
+app.delete('/product/delete/:id', cors({
     origin: "https://inventory-management-net.onrender.com",
     methods: "OPTIONS,GET,HEAD,PUT,PATCH,POST,DELETE",
     optionsSuccessStatus: 204
