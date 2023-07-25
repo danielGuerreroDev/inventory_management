@@ -26,6 +26,7 @@ exports.getSingleProduct = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
 	try {
+		console.log('METHOD 333', req.method);
 		if (req.method === 'OPTIONS') {
 			req.header(
 				"Access-Control-Allow-Origin",
