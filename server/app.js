@@ -19,7 +19,7 @@ app.delete('/products/:id', cors({
     origin: "https://inventory-management-net.onrender.com",
     methods: "OPTIONS,GET,HEAD,PUT,PATCH,POST,DELETE",
     preflightContinue: false,
-    optionsSuccessStatus: 204
+    optionsSuccessStatus: 404
 }
 ), function (req, res, next) {
     try {
