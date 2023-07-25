@@ -24,15 +24,14 @@ exports.getSingleProduct = async (req, res) => {
 	}
 };
 
-exports.updateProduct = async (req, res) => {
-	try {
+exports.updateProduct = async (req, res, next) => {
 		console.log('METHOD 333', req.method);
-		if (req.method === 'OPTIONS') {
-			req.header(
-				"Access-Control-Allow-Origin",
-				["https://inventory-management-gu28.onrender.com/", "https://inventory-management-net.onrender.com"]
-			);
-		};
+		res.setHeader('Access-Control-Allow-Origin', 'https://inventory-management-net.onrender.com');
+		res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+		res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+		res.setHeader('Access-Control-Allow-Credentials', true);
+		next();
+	try {
 		let updatedProductId = parseInt(req.params.id, 10);
 		const selectedProduct = await Products.findOne({ id: updatedProductId });
 		const updatedProduct = await Products.findByIdAndUpdate(
