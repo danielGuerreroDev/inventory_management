@@ -5,7 +5,17 @@ const app = express();
 const routes = require('./routes/productsRoutes');
 // const categoriesRoutes = require('./routes/categoriesRoutes');
 
-app.use(routes);
+// app.use(routes);
+let requestCntr = 0;
+app.use(routes,(req, res, next) => {
+    let thisRequest = requestCntr++;
+    console.log(`${thisRequest}: ${req.method}, ${req.originalUrl}, `, req.headers);
+    // watch for end of theresponse
+    res.on('close', () => {
+        console.log(`${thisRequest}: close response, res.statusCode = ${res.statusCode}, outbound headers: `, res.getHeaders());
+    });
+    next();
+});
 // app.use(categoriesRoutes);
 
 // Set middleware of CORS 
