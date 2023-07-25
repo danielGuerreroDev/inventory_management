@@ -10,7 +10,7 @@ const routes = require('./routes/productsRoutes');
 app.use(routes);
 
 app.options('/product/delete/:id', cors());
-app.del('/products/:id', cors(), function (req, res, next) {
+app.delete('/products/:id', cors(), function (req, res, next) {
     try {
 		let updatedProductId = parseInt(req.params.id, 10);
 		const selectedProduct = Products.findOne({ id: updatedProductId });
