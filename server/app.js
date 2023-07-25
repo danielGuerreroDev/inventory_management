@@ -9,13 +9,19 @@ const routes = require('./routes/productsRoutes');
 
 app.use(routes);
 
-app.options('/product/delete/:id', cors());
-app.delete('/products/:id', cors(), function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', 'https://inventory-management-net.onrender.com');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    next();
+app.options('/product/delete/:id', cors({
+    origin: "https://inventory-management-net.onrender.com",
+    methods: "OPTIONS,GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: true,
+    optionsSuccessStatus: 204
+}));
+app.delete('/products/:id', cors({
+    origin: "https://inventory-management-net.onrender.com",
+    methods: "OPTIONS,GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204
+}
+), function (req, res, next) {
     try {
 		let updatedProductId = parseInt(req.params.id, 10);
 		const selectedProduct = Products.findOne({ id: updatedProductId });
