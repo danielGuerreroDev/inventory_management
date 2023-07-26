@@ -17,12 +17,12 @@ app.options('/product/delete/:id', cors({
 }));
 app.delete('/product/delete/:id', cors(), function (req, res, next) {
     try {
-		let updatedProductId = parseInt(req.params.id, 10);
-		const selectedProduct = Products.findOne({ id: updatedProductId });
-		const deletedProduct = Products.deleteOne(
-			{ _id: selectedProduct._id },
-		);
-		res.send(deletedProduct);
+		// let updatedProductId = parseInt(req.params.id, 10);
+		// const selectedProduct = Products.findOne({ id: updatedProductId });
+		// const deletedProduct = Products.deleteOne(
+		// 	{ _id: selectedProduct._id },
+		// );
+		// res.send(deletedProduct);
 		res.json('This is CORS-enabled for all origins!');
 	} catch (err) {
 		console.log(err);
