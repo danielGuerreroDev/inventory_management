@@ -19,12 +19,11 @@ app.delete('/product/delete/:id', cors(), async (req, res, next) => {
     try {
 		let updatedProductId = parseInt(req.params.id, 10);
 		const selectedProduct = await Products.findOne({ id: updatedProductId });
-		res.json({selectedProduct : selectedProduct});
-		// const deletedProduct = Products.deleteOne(
-		// 	{ _id: selectedProduct._id },
-		// );
-		// res.send(deletedProduct);
-		res.json('This is CORS-enabled for all origins!');
+		// res.json({selectedProduct : selectedProduct});
+		const deletedProduct = Products.deleteOne(
+			{ _id: selectedProduct._id },
+		);
+		res.send(deletedProduct);
 	} catch (err) {
 		console.log(err);
 	}
