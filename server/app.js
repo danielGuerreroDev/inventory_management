@@ -15,10 +15,10 @@ app.options('/product/delete/:id', cors({
     preflightContinue: true,
     optionsSuccessStatus: 200
 }));
-app.delete('/product/delete/:id', cors(), function (req, res, next) {
+app.delete('/product/delete/:id', cors(), async (req, res, next) => {
     try {
 		let updatedProductId = parseInt(req.params.id, 10);
-		const selectedProduct = Products.findOne({ id: updatedProductId });
+		const selectedProduct = await Products.findOne({ id: updatedProductId });
 		res.json({selectedProduct : selectedProduct});
 		// const deletedProduct = Products.deleteOne(
 		// 	{ _id: selectedProduct._id },
