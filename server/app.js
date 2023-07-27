@@ -18,8 +18,8 @@ app.options('/product/delete/:id', cors({
 app.delete('/product/delete/:id', cors(), function (req, res, next) {
     try {
 		let updatedProductId = parseInt(req.params.id, 10);
-        res.json({id : updatedProductId});
-		// const selectedProduct = Products.findOne({ id: updatedProductId });
+		const selectedProduct = Products.findOne({ id: updatedProductId });
+		res.json({selectedProduct : selectedProduct});
 		// const deletedProduct = Products.deleteOne(
 		// 	{ _id: selectedProduct._id },
 		// );
