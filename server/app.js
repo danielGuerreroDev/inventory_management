@@ -37,12 +37,13 @@ app.options('/product/:id', cors({
 app.post('/product/:id', cors(), async (req, res, next) => {
     try {
 		let updatedProductId = parseInt(req.params.id, 10);
-		const selectedProduct = await Products.findOne({ id: updatedProductId });
-		const updatedProduct = await Products.findByIdAndUpdate(
-			{ _id: selectedProduct._id },
-			{ $set: req.body }
-		);
-		res.send(updatedProduct);
+		res.json({updatedProductId : updatedProductId});
+		// const selectedProduct = await Products.findOne({ id: updatedProductId });
+		// const updatedProduct = await Products.findByIdAndUpdate(
+		// 	{ _id: selectedProduct._id },
+		// 	{ $set: req.body }
+		// );
+		// res.send(updatedProduct);
 	} catch (err) {
 		console.log(err);
 	}
