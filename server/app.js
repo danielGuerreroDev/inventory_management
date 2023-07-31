@@ -27,7 +27,26 @@ app.delete('/product/delete/:id', cors(), async (req, res, next) => {
 	} catch (err) {
 		console.log(err);
 	}
-  })
+  });
+app.put('/product/:id', cors({
+    origin: "https://inventory-management-net.onrender.com",
+    methods: "OPTIONS,GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: true,
+    optionsSuccessStatus: 200
+}));
+app.put('/product/:id', cors(), async (req, res, next) => {
+    try {
+		let updatedProductId = parseInt(req.params.id, 10);
+		const selectedProduct = await Products.findOne({ id: updatedProductId });
+		const updatedProduct = await Products.findByIdAndUpdate(
+			{ _id: selectedProduct._id },
+			{ $set: req.body }
+		);
+		res.send(updatedProduct);
+	} catch (err) {
+		console.log(err);
+	}
+  });
 // let requestCntr = 0;
 // app.use(routes,(req, res, next) => {
 //     let thisRequest = requestCntr++;
