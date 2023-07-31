@@ -34,7 +34,7 @@ app.options('/product/:id', cors({
     preflightContinue: true,
     optionsSuccessStatus: 200
 }));
-app.post('/product/:id', cors(), async (req, res, next) => {
+app.put('/product/:id', cors(), async (req, res, next) => {
     try {
 		let updatedProductId = parseInt(req.params.id, 10);
 		res.json({updatedProductId : updatedProductId});
