@@ -40,7 +40,7 @@ app.put('/product/:id', cors(), async (req, res, next) => {
     try {
 		let updatedProductId = parseInt(req.params.id, 10);
 		const selectedProduct = await Products.findOne({ id: updatedProductId });
-		res.json({req_body : req.body});
+		res.json({req_body : req.params});
 		// const updatedProduct = await Products.findByIdAndUpdate(
 		// 	{ _id: selectedProduct._id },
 		// 	{ $set: req.body }
