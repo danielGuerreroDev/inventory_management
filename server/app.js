@@ -40,12 +40,12 @@ app.put('/product/:id', cors(), jsonParser, async (req, res, next) => {
     try {
 		let updatedProductId = parseInt(req.params.id, 10);
 		const selectedProduct = await Products.findOne({ id: updatedProductId });
-		res.json({req_body : req.body});
-		// const updatedProduct = await Products.findByIdAndUpdate(
-		// 	{ _id: selectedProduct._id },
-		// 	{ $set: req.body }
-		// );
-		// res.send(updatedProduct);
+		// res.json({req_body : req.body});
+		const updatedProduct = await Products.findByIdAndUpdate(
+			{ _id: selectedProduct._id },
+			{ $set: req.body }
+		);
+		res.send(updatedProduct);
 	} catch (err) {
 		console.log(err);
 	}
