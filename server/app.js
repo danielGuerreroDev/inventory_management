@@ -28,13 +28,13 @@ app.delete('/product/delete/:id', cors(), async (req, res, next) => {
 		console.log(err);
 	}
   });
-app.put('/product/:id', cors({
+app.options('/product/:id', cors({
     origin: "https://inventory-management-net.onrender.com",
     methods: "OPTIONS,GET,HEAD,PUT,PATCH,POST,DELETE",
     preflightContinue: true,
     optionsSuccessStatus: 200
 }));
-app.put('/product/:id', cors(), async (req, res, next) => {
+app.post('/product/:id', cors(), async (req, res, next) => {
     try {
 		let updatedProductId = parseInt(req.params.id, 10);
 		const selectedProduct = await Products.findOne({ id: updatedProductId });
