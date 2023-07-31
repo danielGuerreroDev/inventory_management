@@ -17,7 +17,7 @@ app.options('/product/delete/:id', cors({
     preflightContinue: true,
     optionsSuccessStatus: 200
 }));
-app.delete('/product/delete/:id', cors(), jsonParser, async (req, res, next) => {
+app.delete('/product/delete/:id', cors(), async (req, res, next) => {
     try {
 		let updatedProductId = parseInt(req.params.id, 10);
 		const selectedProduct = await Products.findOne({ id: updatedProductId });
@@ -36,11 +36,11 @@ app.options('/product/:id', cors({
     preflightContinue: true,
     optionsSuccessStatus: 200
 }));
-app.put('/product/:id', cors(), async (req, res, next) => {
+app.put('/product/:id', cors(), jsonParser, async (req, res, next) => {
     try {
 		let updatedProductId = parseInt(req.params.id, 10);
 		const selectedProduct = await Products.findOne({ id: updatedProductId });
-		res.json({req_body : req.params});
+		res.json({req_body : req.body});
 		// const updatedProduct = await Products.findByIdAndUpdate(
 		// 	{ _id: selectedProduct._id },
 		// 	{ $set: req.body }
