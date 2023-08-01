@@ -18,3 +18,6 @@ I'm a frontend developer with backend knowledge.
 - MongoDB
 - Mongoose
 - CORS
+  
+## Authors
+- [Daniel Guerrero](https://github.com/danoGuerrero)
