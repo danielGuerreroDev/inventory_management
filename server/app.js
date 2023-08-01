@@ -11,7 +11,7 @@ const jsonParser = bodyParser.json();
 
 app.options('/product/:id', cors({
     origin: "https://inventory-management-net.onrender.com",
-    methods: "OPTIONS,GET,HEAD,PUT,PATCH,POST,DELETE",
+    methods: "PUT",
     preflightContinue: true,
     optionsSuccessStatus: 200
 }));
