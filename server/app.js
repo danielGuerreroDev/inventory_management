@@ -9,6 +9,13 @@ const routes = require('./routes/productsRoutes');
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 
+app.options('/product/:id', cors({
+    origin: "https://inventory-management-net.onrender.com",
+    methods: "OPTIONS,GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: true,
+    optionsSuccessStatus: 200
+}));
+
 app.use(routes);
 
 app.options('/product/delete/:id', cors({
@@ -30,26 +37,26 @@ app.delete('/product/delete/:id', cors(), async (req, res, next) => {
 		console.log(err);
 	}
   });
-app.options('/product/:id', cors({
-    origin: "https://inventory-management-net.onrender.com",
-    methods: "OPTIONS,GET,HEAD,PUT,PATCH,POST,DELETE",
-    preflightContinue: true,
-    optionsSuccessStatus: 200
-}));
-app.put('/product/:id', cors(), jsonParser, async (req, res, next) => {
-    try {
-		let updatedProductId = parseInt(req.params.id, 10);
-		const selectedProduct = await Products.findOne({ id: updatedProductId });
-		// res.json({req_body : req.body});
-		const updatedProduct = await Products.findByIdAndUpdate(
-			{ _id: selectedProduct._id },
-			{ $set: req.body }
-		);
-		res.send(updatedProduct);
-	} catch (err) {
-		console.log(err);
-	}
-  });
+// app.options('/product/:id', cors({
+//     origin: "https://inventory-management-net.onrender.com",
+//     methods: "OPTIONS,GET,HEAD,PUT,PATCH,POST,DELETE",
+//     preflightContinue: true,
+//     optionsSuccessStatus: 200
+// }));
+// app.put('/product/:id', cors(), jsonParser, async (req, res, next) => {
+//     try {
+// 		let updatedProductId = parseInt(req.params.id, 10);
+// 		const selectedProduct = await Products.findOne({ id: updatedProductId });
+// 		// res.json({req_body : req.body});
+// 		const updatedProduct = await Products.findByIdAndUpdate(
+// 			{ _id: selectedProduct._id },
+// 			{ $set: req.body }
+// 		);
+// 		res.send(updatedProduct);
+// 	} catch (err) {
+// 		console.log(err);
+// 	}
+//   });
 // let requestCntr = 0;
 // app.use(routes,(req, res, next) => {
 //     let thisRequest = requestCntr++;
