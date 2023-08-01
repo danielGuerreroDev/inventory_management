@@ -9,7 +9,7 @@ const routes = require('./routes/productsRoutes');
 // const bodyParser = require('body-parser');
 // const jsonParser = bodyParser.json();
 
-app.options('/product/:id','/product/delete/:id', cors({
+app.options(['/product/:id','/product/delete/:id'], cors({
     origin: "https://inventory-management-net.onrender.com",
     methods: "PUT,DELETE",
     preflightContinue: true,
