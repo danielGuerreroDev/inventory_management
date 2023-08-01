@@ -2,41 +2,41 @@ const cors = require('cors');
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const Products = mongoose.model('products');
+// const Products = mongoose.model('products');
 
 const routes = require('./routes/productsRoutes');
 // const categoriesRoutes = require('./routes/categoriesRoutes');
-const bodyParser = require('body-parser');
-const jsonParser = bodyParser.json();
+// const bodyParser = require('body-parser');
+// const jsonParser = bodyParser.json();
 
-app.options('/product/:id', cors({
+app.options('/product/:id','/product/delete/:id', cors({
     origin: "https://inventory-management-net.onrender.com",
-    methods: "PUT",
+    methods: "PUT,DELETE",
     preflightContinue: true,
     optionsSuccessStatus: 200
 }));
 
 app.use(routes);
 
-app.options('/product/delete/:id', cors({
-    origin: "https://inventory-management-net.onrender.com",
-    methods: "OPTIONS,GET,HEAD,PUT,PATCH,POST,DELETE",
-    preflightContinue: true,
-    optionsSuccessStatus: 200
-}));
-app.delete('/product/delete/:id', cors(), async (req, res, next) => {
-    try {
-		let updatedProductId = parseInt(req.params.id, 10);
-		const selectedProduct = await Products.findOne({ id: updatedProductId });
-		// res.json({selectedProduct : selectedProduct});
-		const deletedProduct = await Products.deleteOne(
-			{ _id: selectedProduct._id },
-		);
-		res.send(deletedProduct);
-	} catch (err) {
-		console.log(err);
-	}
-  });
+// app.options('/product/delete/:id', cors({
+//     origin: "https://inventory-management-net.onrender.com",
+//     methods: "OPTIONS,GET,HEAD,PUT,PATCH,POST,DELETE",
+//     preflightContinue: true,
+//     optionsSuccessStatus: 200
+// }));
+// app.delete('/product/delete/:id', cors(), async (req, res, next) => {
+//     try {
+// 		let updatedProductId = parseInt(req.params.id, 10);
+// 		const selectedProduct = await Products.findOne({ id: updatedProductId });
+// 		// res.json({selectedProduct : selectedProduct});
+// 		const deletedProduct = await Products.deleteOne(
+// 			{ _id: selectedProduct._id },
+// 		);
+// 		res.send(deletedProduct);
+// 	} catch (err) {
+// 		console.log(err);
+// 	}
+//   });
 // app.options('/product/:id', cors({
 //     origin: "https://inventory-management-net.onrender.com",
 //     methods: "OPTIONS,GET,HEAD,PUT,PATCH,POST,DELETE",

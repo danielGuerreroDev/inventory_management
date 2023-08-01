@@ -38,15 +38,15 @@ exports.updateProduct = async (req, res, next) => {
 	}
   };
 
-// exports.deleteProduct = async (req, res) => {
-// 	try {
-// 		let updatedProductId = parseInt(req.params.id, 10);
-// 		const selectedProduct = await Products.findOne({ id: updatedProductId });
-// 		const deletedProduct = await Products.deleteOne(
-// 			{ _id: selectedProduct._id },
-// 		);
-// 		res.send(deletedProduct);
-// 	} catch (err) {
-// 		console.log(err);
-// 	}
-// };
+exports.deleteProduct = async (req, res) => {
+	try {
+		let updatedProductId = parseInt(req.params.id, 10);
+		const selectedProduct = await Products.findOne({ id: updatedProductId });
+		const deletedProduct = await Products.deleteOne(
+			{ _id: selectedProduct._id },
+		);
+		res.send(deletedProduct);
+	} catch (err) {
+		console.log(err);
+	}
+};
