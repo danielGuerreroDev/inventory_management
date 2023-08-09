@@ -1,5 +1,5 @@
 
-# Inventory Management Backend
+# Inventory Management Back-end
 
 This project manages an inventory of products.
 
